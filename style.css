@@ -5,7 +5,7 @@ body, html {
   box-sizing: border-box;
 }
 
-/* Nền đen + shader */
+/* Nền + font */
 body {
   background-color: black;
   height: 100vh;
@@ -41,24 +41,35 @@ body {
   transform: scale(1.05);
 }
 
-/* Happy Birthday chữ bay loạn */
+/* Happy Birthday bay kiểu rắn uốn */
 .hb {
-  position: fixed;
-  font-size: 20px;
+  position: absolute;
+  font-size: 22px;
   font-weight: bold;
-  color: hsl(330, 100%, 70%);
+  color: #ff69b4;
+  text-shadow: 0 0 8px #ffb6c1, 0 0 20px #ff69b4;
+  white-space: nowrap;
+  animation: waveMove 6s ease-in-out forwards;
   pointer-events: none;
-  animation: float 5s linear infinite;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
-@keyframes float {
+@keyframes waveMove {
   0% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
+    transform: translateX(0) translateY(0);
     opacity: 1;
   }
+  25% {
+    transform: translateX(30px) translateY(-20px);
+  }
+  50% {
+    transform: translateX(60px) translateY(20px);
+  }
+  75% {
+    transform: translateX(90px) translateY(-30px);
+  }
   100% {
-    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s));
+    transform: translateX(120px) translateY(0);
     opacity: 0;
   }
 }
