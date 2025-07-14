@@ -10,20 +10,17 @@ function startRain() {
   const message = "HAPPY BIRTHDAY";
   const letters = message.split("");
 
-  const fontSize = 22;
+  const fontSize = 32; // TO HƠN
   const columns = canvas.width / fontSize;
   const drops = new Array(Math.floor(columns)).fill(1);
 
   function draw() {
-    // Làm nền tối tuyệt đối, không glow
     ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#ff69b4"; // Màu hồng sáng rõ
+    ctx.fillStyle = "#ff69b4"; // Màu hồng
     ctx.font = fontSize + "px monospace";
-
-    // ❌ Không glow nữa
-    ctx.shadowColor = "transparent";
+    ctx.shadowColor = "transparent"; // Không glow
     ctx.shadowBlur = 0;
 
     for (let i = 0; i < drops.length; i++) {
