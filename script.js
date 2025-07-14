@@ -1,24 +1,43 @@
-function startSurprise() {
+function startRain() {
+  // Ẩn lớp shader
   document.querySelector('.shader').style.display = 'none';
 
-  let counter = 0;
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
 
-  setInterval(() => {
-    const hb = document.createElement('div');
-    hb.classList.add('hb');
-    hb.textContent = 'Happy Birthday';
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
 
-    // Random vị trí dọc
-    const startY = Math.random() * 80 + 10; // 10vh đến 90vh
-    hb.style.top = startY + 'vh';
+  const message = "HAPPY BIRTHDAY";
+  const letters = message.split("");
 
-    // Thêm độ trễ để lệch pha rắn
-    hb.style.animationDelay = (Math.random() * 0.5) + 's';
+  const fontSize = 20;
+  const columns = canvas.width / fontSize;
+  const drops = new Array(Math.floor(columns)).fill(1);
 
-    document.body.appendChild(hb);
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    setTimeout(() => {
-      hb.remove();
-    }, 6000);
-  }, 300); // mỗi 300ms 1 con rắn bay
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+    ctx.shadowColor = "#00ff99";
+    ctx.shadowBlur = 8;
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[i % letters.length];
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+
+      ctx.fillText(text, x, y);
+
+      if (y > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 50);
 }
