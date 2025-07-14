@@ -18,10 +18,11 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      background-color: black;
     }
 
     .rotate-icon {
@@ -41,41 +42,28 @@
     }
 
     @keyframes phoneRotate {
-      0% {
-        transform: rotate(0deg);
-      }
-      60% {
-        transform: rotate(-90deg);
-      }
-      75% {
-        transform: rotate(-90deg);
-      }
-      100% {
-        transform: rotate(0deg);
-      }
+      0% { transform: rotate(0deg); }
+      60% { transform: rotate(-90deg); }
+      75% { transform: rotate(-90deg); }
+      100% { transform: rotate(0deg); }
     }
   </style>
 </head>
 <body>
   <!-- Cảnh báo xoay ngang -->
-  <div class="rotate-warning">
+  <div class="rotate-warning" id="rotate-warning">
     <div class="rotate-icon">
       <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <!-- Gộp nhóm: điện thoại + mũi tên -->
         <g id="phone-group">
-          <!-- Điện thoại (mập hơn) -->
+          <!-- Điện thoại mập hơn -->
           <rect x="75" y="55" width="50" height="90" rx="10" ry="10" stroke="white" stroke-width="3" fill="none"/>
           <circle cx="100" cy="60" r="2" fill="white"/>
           <circle cx="100" cy="135" r="4" fill="white"/>
-
-          <!-- Mũi tên phải: cong tròn hơn và ngắn lại -->
+          <!-- Mũi tên phải -->
           <path d="M 150 130 C 160 100, 160 100, 150 70" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-
-          <!-- Mũi tên trái: cong tròn hơn và ngắn lại -->
+          <!-- Mũi tên trái -->
           <path d="M 50 70 C 40 100, 40 100, 50 130" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
         </g>
-
-        <!-- Định nghĩa đầu mũi tên -->
         <defs>
           <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
             <path d="M0,0 L6,3 L0,6 Z" fill="white" />
@@ -85,11 +73,32 @@
     </div>
   </div>
 
-  <!-- Nút bất ngờ + canvas hiệu ứng -->
+  <!-- Nút bất ngờ + hiệu ứng -->
   <div class="shader">
     <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
   </div>
   <canvas id="matrix"></canvas>
   <script src="script.js"></script>
+
+  <!-- Logic chỉ hiện cảnh báo trên điện thoại + dọc -->
+  <script>
+    function isPortraitMobile() {
+      const isMobile = /iPhone|Android|iPad|iPod|webOS|BlackBerry/i.test(navigator.userAgent);
+      return isMobile && window.innerHeight > window.innerWidth;
+    }
+
+    function updateRotateWarning() {
+      const warning = document.getElementById(\"rotate-warning\");
+      if (isPortraitMobile()) {
+        warning.style.display = \"flex\";
+      } else {
+        warning.style.display = \"none\";
+      }
+    }
+
+    window.addEventListener(\"resize\", updateRotateWarning);
+    window.addEventListener(\"orientationchange\", updateRotateWarning);
+    window.addEventListener(\"load\", updateRotateWarning);
+  </script>
 </body>
 </html>
