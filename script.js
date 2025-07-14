@@ -1,33 +1,24 @@
 function startSurprise() {
-  // Ẩn nút bất ngờ
+  // Ẩn lớp shader
   document.querySelector('.shader').style.display = 'none';
 
-  // Tạo hiệu ứng chữ bay loạn vĩnh viễn
+  // Tạo hiệu ứng chữ bay kiểu uốn lượn
   setInterval(() => {
     const hb = document.createElement('div');
     hb.classList.add('hb');
     hb.textContent = 'Happy Birthday';
 
-    // Random vị trí ban đầu
-    hb.style.left = Math.random() * 100 + 'vw';
-    hb.style.top = Math.random() * 100 + 'vh';
+    // Random vị trí ban đầu (bên trái và dưới lên)
+    const startY = Math.random() * 80 + 10; // từ 10vh đến 90vh
+    hb.style.top = startY + 'vh';
+    hb.style.left = '-200px'; // bắt đầu ngoài màn hình bên trái
 
-    // Random đường bay
-    hb.style.setProperty('--x', (Math.random() * 200 - 100) + 'vw');
-    hb.style.setProperty('--y', (Math.random() * -150) + 'vh');
-    hb.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
-    hb.style.setProperty('--s', (Math.random() * 1.5 + 0.5));
-
-    // Màu hồng ngẫu nhiên
-    const hue = 330 + Math.random() * 20;
-    const light = 60 + Math.random() * 20;
-    hb.style.color = `hsl(${hue}, 100%, ${light}%)`;
-
+    // Thêm vào body
     document.body.appendChild(hb);
 
-    // Xoá sau 5s
+    // Xóa sau animation
     setTimeout(() => {
       hb.remove();
-    }, 5000);
-  }, 200); // mỗi 200ms tạo 1 chữ
+    }, 6000); // trùng với thời gian animation
+  }, 300); // mỗi 300ms tạo 1 chữ
 }
