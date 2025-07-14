@@ -5,23 +5,23 @@ body, html {
   box-sizing: border-box;
 }
 
-/* Toàn màn đen + shader */
+/* Nền đen + shader */
 body {
   background-color: black;
   height: 100vh;
+  overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .shader {
+  position: fixed;
   width: 100vw;
   height: 100vh;
   background: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,1) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .note {
@@ -39,4 +39,26 @@ body {
   background-color: white;
   color: black;
   transform: scale(1.05);
+}
+
+/* Happy Birthday chữ bay loạn */
+.hb {
+  position: fixed;
+  font-size: 20px;
+  font-weight: bold;
+  color: hsl(330, 100%, 70%);
+  pointer-events: none;
+  animation: float 5s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s));
+    opacity: 0;
+  }
 }
