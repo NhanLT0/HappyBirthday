@@ -55,14 +55,14 @@ canvas {
   align-items: center;
 }
 
-.rotate-icon {
-  animation: wiggle 3s infinite ease-in-out;
+.rotate-icon svg #arrows {
+  transform-origin: 65px 65px; /* đúng tâm giữa điện thoại */
+  animation: spinArrows 3s linear infinite;
 }
 
-@keyframes wiggle {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
+@keyframes spinArrows {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @media screen and (orientation: portrait) and (max-width: 767px) {
