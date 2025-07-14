@@ -5,27 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🎉 Hacker Birthday 🎉</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Giữ điểm xoay chính giữa */
+    .rotate-icon svg #phone-body {
+      transform-origin: 90px 80px; /* đúng giữa điện thoại */
+      animation: rotatePhone 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes rotatePhone {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(90deg); }
+    }
+  </style>
 </head>
 <body>
   <!-- Cảnh báo xoay ngang -->
   <div class="rotate-warning">
     <div class="rotate-icon">
       <svg width="180" height="160" viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
-        <!-- Nhóm xoay điện thoại + mũi tên -->
+        <!-- Nhóm điện thoại + mũi tên, xoay tại center -->
         <g id="phone-body">
           <!-- Điện thoại -->
           <rect x="70" y="35" width="40" height="90" rx="8" ry="8" stroke="white" stroke-width="3" fill="none"/>
           <circle cx="90" cy="40" r="2" fill="white"/>
           <circle cx="90" cy="120" r="4" fill="white"/>
 
-          <!-- Mũi tên trái (Cong kiểu chữ S ngắn, mềm) -->
-          <path d="M 40 80 C 30 60, 30 100, 45 80" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên trái (giống hình mẫu: chữ C) -->
+          <path d="M 35 80 A 30 30 0 0 1 65 50" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
 
-          <!-- Mũi tên phải (Cong kiểu S ngược) -->
-          <path d="M 140 80 C 150 60, 150 100, 135 80" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên phải (chữ C ngược) -->
+          <path d="M 115 80 A 30 30 0 0 0 145 50" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
         </g>
 
-        <!-- Đầu mũi tên nhỏ và sắc -->
+        <!-- Đầu mũi tên: nhỏ, sắc -->
         <defs>
           <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse">
             <path d="M0,0 L5,2.5 L0,5 Z" fill="white" />
