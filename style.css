@@ -55,16 +55,21 @@ canvas {
   align-items: center;
 }
 
-.rotate-icon svg #arrows {
-  transform-origin: 65px 65px; /* đúng tâm giữa điện thoại */
-  animation: spinArrows 3s linear infinite;
+/* Animation xoay qua xoay lại */
+.rotate-icon svg #phone-body {
+  transform-origin: 65px 65px;
+  animation: tiltPhone 3s ease-in-out infinite;
 }
 
-@keyframes spinArrows {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+@keyframes tiltPhone {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-90deg); }
+  50%  { transform: rotate(-90deg); }
+  75%  { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
 }
 
+/* Hiện cảnh báo khi điện thoại xoay dọc */
 @media screen and (orientation: portrait) and (max-width: 767px) {
   .rotate-warning {
     display: flex;
