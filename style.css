@@ -1,21 +1,16 @@
-body, html {
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: black;
-  height: 100vh;
+  background: black;
   overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: monospace;
 }
 
 .shader {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,1) 100%);
+  background: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,53 +20,20 @@ body {
 .note {
   font-size: 24px;
   padding: 20px 30px;
-  border: 2px solid white;
+  border: 2px solid #00ff00;
   border-radius: 12px;
-  color: white;
+  color: #00ff00;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
 }
 
 .note:hover {
-  background-color: white;
+  background-color: #00ff00;
   color: black;
   transform: scale(1.05);
 }
 
-/* Happy Birthday rắn trườn */
-.hb {
-  position: absolute;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff69b4;
-  text-shadow: 0 0 8px #ffb6c1, 0 0 20px #ff69b4;
-  white-space: nowrap;
-  animation: snakeMove 6s linear forwards;
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-/* Keyframe rắn trườn: sin wave */
-@keyframes snakeMove {
-  0% {
-    transform: translateX(-200px) translateY(0);
-    opacity: 1;
-  }
-  20% {
-    transform: translateX(20vw) translateY(-20px);
-  }
-  40% {
-    transform: translateX(40vw) translateY(20px);
-  }
-  60% {
-    transform: translateX(60vw) translateY(-20px);
-  }
-  80% {
-    transform: translateX(80vw) translateY(20px);
-  }
-  100% {
-    transform: translateX(100vw) translateY(0);
-    opacity: 0;
-  }
+canvas {
+  display: block;
 }
