@@ -1,42 +1,44 @@
-function startRain() {
-  document.querySelector('.shader').style.display = 'none';
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  overflow: hidden;
+  font-family: monospace;
+}
 
-  const canvas = document.getElementById("matrix");
-  const ctx = canvas.getContext("2d");
+.shader {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
 
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
+.note {
+  font-size: 26px;
+  padding: 20px 40px;
+  border: 2px solid white;
+  border-radius: 14px;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 0 10px white;
+}
 
-  const message = "HAPPY BIRTHDAY";
-  const letters = message.split("");
+.note:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.08);
+  box-shadow: 0 0 20px white;
+}
 
-  const fontSize = 22;
-  const columns = canvas.width / fontSize;
-  const drops = new Array(Math.floor(columns)).fill(1);
-
-  function draw() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = "#ff69b4"; // Hồng cute
-    ctx.font = fontSize + "px monospace";
-    ctx.shadowColor = "#ffc0cb";
-    ctx.shadowBlur = 10;
-
-    for (let i = 0; i < drops.length; i++) {
-      const text = letters[i % letters.length];
-      const x = i * fontSize;
-      const y = drops[i] * fontSize;
-
-      ctx.fillText(text, x, y);
-
-      if (y > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-
-      drops[i]++;
-    }
-  }
-
-  setInterval(draw, 50);
+canvas {
+  display: block;
+  background-color: black;
 }
