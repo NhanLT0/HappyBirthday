@@ -18,22 +18,27 @@ body {
 }
 
 .note {
-  font-size: 24px;
-  padding: 20px 30px;
-  border: 2px solid #ff69b4;
-  border-radius: 12px;
-  color: #ff69b4;
+  font-size: 26px;
+  padding: 20px 40px;
+  border: 2px solid white;
+  border-radius: 14px;
+  color: white;
+  background-color: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
+  font-weight: bold;
+  box-shadow: 0 0 10px white;
 }
 
 .note:hover {
-  background-color: #ff69b4;
+  background-color: white;
   color: black;
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px white;
 }
 
 canvas {
   display: block;
+  background-color: black;
 }
