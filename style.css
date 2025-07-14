@@ -1,11 +1,9 @@
-/* Reset */
 body, html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Nền + font */
 body {
   background-color: black;
   height: 100vh;
@@ -41,7 +39,7 @@ body {
   transform: scale(1.05);
 }
 
-/* Happy Birthday bay kiểu rắn uốn */
+/* Happy Birthday rắn trườn */
 .hb {
   position: absolute;
   font-size: 22px;
@@ -49,27 +47,31 @@ body {
   color: #ff69b4;
   text-shadow: 0 0 8px #ffb6c1, 0 0 20px #ff69b4;
   white-space: nowrap;
-  animation: waveMove 6s ease-in-out forwards;
+  animation: snakeMove 6s linear forwards;
   pointer-events: none;
   opacity: 0.9;
 }
 
-@keyframes waveMove {
+/* Keyframe rắn trườn: sin wave */
+@keyframes snakeMove {
   0% {
-    transform: translateX(0) translateY(0);
+    transform: translateX(-200px) translateY(0);
     opacity: 1;
   }
-  25% {
-    transform: translateX(30px) translateY(-20px);
+  20% {
+    transform: translateX(20vw) translateY(-20px);
   }
-  50% {
-    transform: translateX(60px) translateY(20px);
+  40% {
+    transform: translateX(40vw) translateY(20px);
   }
-  75% {
-    transform: translateX(90px) translateY(-30px);
+  60% {
+    transform: translateX(60vw) translateY(-20px);
+  }
+  80% {
+    transform: translateX(80vw) translateY(20px);
   }
   100% {
-    transform: translateX(120px) translateY(0);
+    transform: translateX(100vw) translateY(0);
     opacity: 0;
   }
 }
