@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎉 Happy Birthday 🎉</title>
+  <title>🎉 Hacker Birthday 🎉</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -82,6 +82,8 @@
   <canvas id="matrix"></canvas>
   <script>
     function startRain() {
+      document.querySelector('.shader').style.display = 'none';
+
       const canvas = document.getElementById("matrix");
       const ctx = canvas.getContext("2d");
 
