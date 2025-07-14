@@ -18,4 +18,27 @@ body {
 }
 
 .note {
-  font-size: 32px; /
+  font-size: 32px; /* TO HƠN */
+  padding: 28px 60px; /* DÀY HƠN */
+  border: 2px solid white;
+  border-radius: 14px;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 0 12px white;
+}
+
+.note:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.1);
+  box-shadow: 0 0 25px white;
+}
+
+canvas {
+  display: block;
+  background-color: black;
+}
