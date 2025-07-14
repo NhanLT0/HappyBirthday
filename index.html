@@ -6,55 +6,90 @@
   <title>🎉 Hacker Birthday 🎉</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Điện thoại xoay quanh trung tâm */
-    .rotate-icon svg #phone-body {
-      transform-origin: 90px 80px;
-      animation: rotatePhone 2s infinite ease-in-out alternate;
+    body {
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
     }
 
-    @keyframes rotatePhone {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(90deg); }
+    .rotate-warning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .rotate-icon {
+      width: 150px;
+      height: 150px;
+      position: relative;
+    }
+
+    .rotate-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    #phone-group {
+      transform-origin: 100px 100px;
+      animation: phoneRotate 3s infinite ease-in-out;
+    }
+
+    @keyframes phoneRotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      60% {
+        transform: rotate(-90deg);
+      }
+      75% {
+        transform: rotate(-90deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Cảnh báo xoay ngang (chỉ hiện trên điện thoại) -->
+  <!-- Cảnh báo xoay ngang -->
   <div class="rotate-warning">
     <div class="rotate-icon">
-      <svg width="180" height="160" viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
-        <g id="phone-body">
-          <!-- Thân điện thoại -->
-          <rect x="70" y="35" width="40" height="90" rx="8" ry="8" stroke="white" stroke-width="3" fill="none"/>
-          <circle cx="90" cy="40" r="2" fill="white"/>
-          <circle cx="90" cy="120" r="4" fill="white"/>
+      <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Gộp nhóm: điện thoại + mũi tên -->
+        <g id="phone-group">
+          <!-- Điện thoại (mập hơn) -->
+          <rect x="75" y="55" width="50" height="90" rx="10" ry="10" stroke="white" stroke-width="3" fill="none"/>
+          <circle cx="100" cy="60" r="2" fill="white"/>
+          <circle cx="100" cy="135" r="4" fill="white"/>
 
-          <!-- Mũi tên trái (đúng chiều ảnh mẫu) -->
-          <path d="M 65 80 A 30 30 0 0 0 35 95" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên phải: cong tròn hơn và ngắn lại -->
+          <path d="M 150 130 C 160 100, 160 100, 150 70" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
 
-          <!-- Mũi tên phải (đúng chiều ảnh mẫu) -->
-          <path d="M 145 95 A 30 30 0 0 1 115 80" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên trái: cong tròn hơn và ngắn lại -->
+          <path d="M 50 70 C 40 100, 40 100, 50 130" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
         </g>
 
-        <!-- Marker đầu mũi tên -->
+        <!-- Định nghĩa đầu mũi tên -->
         <defs>
-          <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse">
-            <path d="M0,0 L5,2.5 L0,5 Z" fill="white" />
+          <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="white" />
           </marker>
         </defs>
       </svg>
     </div>
   </div>
 
-  <!-- Shader + Nút mở bất ngờ -->
+  <!-- Nút bất ngờ + canvas hiệu ứng -->
   <div class="shader">
     <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
   </div>
-
-  <!-- Canvas hiệu ứng -->
   <canvas id="matrix"></canvas>
-
-  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
