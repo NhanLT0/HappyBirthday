@@ -15,16 +15,16 @@ function startRain() {
   const drops = new Array(Math.floor(columns)).fill(1);
 
   function draw() {
-    // Làm tối nền rõ hơn để tránh ám màu glow
+    // Làm nền tối tuyệt đối, không glow
     ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#ff69b4"; // Hồng đẹp
+    ctx.fillStyle = "#ff69b4"; // Màu hồng sáng rõ
     ctx.font = fontSize + "px monospace";
 
-    // Giảm glow hoặc bỏ glow hoàn toàn nếu bà muốn siêu sạch
-    ctx.shadowColor = "#ff69b4"; // Vẫn hồng nhưng ít sáng
-    ctx.shadowBlur = 6;          // Giảm blur từ 15 → 6
+    // ❌ Không glow nữa
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
 
     for (let i = 0; i < drops.length; i++) {
       const text = letters[i % letters.length];
