@@ -43,7 +43,6 @@ canvas {
   background-color: black;
 }
 
-/* Cảnh báo xoay ngang */
 .rotate-warning {
   display: none;
   position: fixed;
@@ -57,16 +56,15 @@ canvas {
 }
 
 .rotate-icon {
-  animation: rotateHint 2s infinite linear;
+  animation: wiggle 3s infinite ease-in-out;
 }
 
-/* Animation xoay mũi tên */
-@keyframes rotateHint {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
 }
 
-/* Chỉ hiện khi dọc (portrait) trên thiết bị nhỏ */
 @media screen and (orientation: portrait) and (max-width: 767px) {
   .rotate-warning {
     display: flex;
