@@ -10,20 +10,22 @@
   <!-- Cảnh báo xoay ngang -->
   <div class="rotate-warning">
     <div class="rotate-icon">
-      <!-- SVG điện thoại viền + 2 mũi tên cong -->
+      <!-- SVG: điện thoại cố định, mũi tên xoay vòng quanh -->
       <svg width="130" height="130" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
         <!-- Điện thoại -->
         <rect x="40" y="20" width="50" height="90" rx="8" ry="8" stroke="white" stroke-width="4" fill="none"/>
         <circle cx="65" cy="25" r="2" fill="white"/>
         <circle cx="65" cy="105" r="4" fill="white"/>
 
-        <!-- Mũi tên trái -->
-        <path d="M 30 45 A 20 20 0 0 1 30 85" fill="none" stroke="white" stroke-width="3" marker-end="url(#arrowhead)" />
+        <!-- Nhóm mũi tên cong (xoay riêng) -->
+        <g id="arrows">
+          <!-- Mũi tên trái -->
+          <path d="M 30 45 A 20 20 0 0 1 30 85" fill="none" stroke="white" stroke-width="3" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên phải -->
+          <path d="M 100 45 A 20 20 0 0 0 100 85" fill="none" stroke="white" stroke-width="3" marker-end="url(#arrowhead)" />
+        </g>
 
-        <!-- Mũi tên phải -->
-        <path d="M 100 45 A 20 20 0 0 0 100 85" fill="none" stroke="white" stroke-width="3" marker-end="url(#arrowhead)" />
-
-        <!-- Định nghĩa mũi tên -->
+        <!-- Mũi tên hình -->
         <defs>
           <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
             <polygon points="0,0 8,4 0,8" fill="white" />
