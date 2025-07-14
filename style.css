@@ -61,12 +61,19 @@ canvas {
 }
 
 .rotate-icon {
-  font-size: 60px;
-  margin-bottom: 20px;
+  font-size: 80px;
+  animation: rotatePhone 2s infinite ease-in-out;
 }
 
-/* Chỉ hiện khi điện thoại đang dọc (portrait) */
-@media screen and (orientation: portrait) {
+/* Animation xoay nhẹ icon */
+@keyframes rotatePhone {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Chỉ hiện khi dọc (portrait) trên thiết bị nhỏ */
+@media screen and (orientation: portrait) and (max-width: 767px) {
   .rotate-warning {
     display: flex;
   }
