@@ -3,235 +3,141 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎉 Happy Birthday 🎉</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Happy Birthday</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      background-color: black;
+      padding: 0;
+      background: black;
       overflow: hidden;
+      color: hotpink;
+      font-family: monospace;
     }
 
-    .rotate-warning {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      background-color: black;
-    }
-
-    .rotate-icon {
-      width: 150px;
-      height: 150px;
-      position: relative;
-    }
-
-    .rotate-icon svg {
-      width: 100%;
-      height: auto;
-      max-height: 100%;
+    canvas {
       display: block;
     }
 
-    #phone-group {
-      transform-origin: 100px 100px;
-      animation: phoneRotate 3s infinite ease-in-out;
-    }
-
-    @keyframes phoneRotate {
-      0% { transform: rotate(0deg); }
-      60% { transform: rotate(-90deg); }
-      75% { transform: rotate(-90deg); }
-      100% { transform: rotate(0deg); }
-    }
-
-    .sparkle-text {
+    .note {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 48px;
-      font-family: 'monospace';
+      padding: 20px 30px;
+      background: white;
+      color: black;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 10px;
+      z-index: 10;
+      box-shadow: 0 0 20px hotpink;
+      transition: 0.3s;
+    }
+
+    .note:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .happy {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
       font-weight: bold;
       color: #ff69b4;
-      opacity: 0;
-      z-index: 999;
-      background: linear-gradient(90deg, #ff69b4, #ffffff, #ff69b4);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: sparkle 2s linear infinite, sparkleFade 1s ease-in-out forwards;
-      animation-delay: 6s;
+      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px white;
+      animation: sparkle 1.2s infinite alternate;
+      z-index: 9;
+      white-space: nowrap;
+      pointer-events: none;
     }
 
     @keyframes sparkle {
-      to {
-        background-position: 200% center;
-      }
-    }
-
-    @keyframes sparkleFade {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      0% { text-shadow: 0 0 5px #ff69b4, 0 0 10px white; }
+      100% { text-shadow: 0 0 10px #ff69b4, 0 0 20px white, 0 0 30px #ff69b4; }
     }
   </style>
 </head>
 <body>
-  <!-- Cảnh báo xoay ngang -->
-  <div class="rotate-warning" id="rotate-warning">
-    <div class="rotate-icon">
-      <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <g id="phone-group">
-          <!-- Điện thoại mập hơn -->
-          <rect x="75" y="55" width="50" height="90" rx="10" ry="10" stroke="white" stroke-width="3" fill="none"/>
-          <circle cx="100" cy="60" r="2" fill="white"/>
-          <circle cx="100" cy="135" r="4" fill="white"/>
-          <!-- Mũi tên phải -->
-          <path d="M 150 130 C 160 100, 160 100, 150 70" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-          <!-- Mũi tên trái -->
-          <path d="M 50 70 C 40 100, 40 100, 50 130" stroke="white" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-        </g>
-        <defs>
-          <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 Z" fill="white" />
-          </marker>
-        </defs>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Nút bất ngờ + canvas hiệu ứng -->
-  <div class="shader">
-    <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
-  </div>
   <canvas id="matrix"></canvas>
-  <canvas id="fireworks-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:998;"></canvas>
-  <div class="sparkle-text">HAPPY BIRTHDAY</div>
+  <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
+  <div id="happy" class="happy" style="display: none;">HAPPY BIRTHDAY</div>
 
   <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+      drops[i] = Math.random() * -100;
+    }
+
+    const happyPositions = [];
+
+    function generateHappyPosition() {
+      const text = "HAPPY BIRTHDAY";
+      const middleX = Math.floor(columns / 2) - Math.floor(text.length / 2);
+      const yRow = 10;
+      happyPositions.length = 0;
+      for (let i = 0; i < text.length; i++) {
+        happyPositions.push({ x: middleX + i, y: yRow, char: text[i] });
+      }
+    }
+
+    let showHappy = false;
     function startRain() {
-      document.querySelector('.shader').style.display = 'none';
+      document.querySelector(".note").style.display = "none";
+      showHappy = true;
+      document.getElementById("happy").style.display = "block";
+    }
 
-      const canvas = document.getElementById("matrix");
-      const ctx = canvas.getContext("2d");
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      ctx.fillStyle = "hotpink";
+      ctx.font = fontSize + "px monospace";
 
-      const letters = "HAPPY BIRTHDAY ".split("");
-      const fontSize = 20;
-      const columnCount = Math.floor(canvas.width / fontSize);
-      const offsetX = (canvas.width - columnCount * fontSize) / 2;
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
 
-      const drops = Array(columnCount).fill(1);
-
-      const rainInterval = setInterval(() => {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = "#ff69b4";
-        ctx.font = fontSize + "px monospace";
-
-        for (let i = 0; i < drops.length; i++) {
-          const text = letters[Math.floor(Math.random() * letters.length)];
-          const x = i * fontSize + offsetX;
-          const y = drops[i] * fontSize;
-
+        // Kiểm tra xem ký tự này có nằm trong vùng tạo chữ HAPPY BIRTHDAY không
+        if (
+          showHappy &&
+          happyPositions.some((p) => p.x === i && Math.floor(drops[i]) === p.y)
+        ) {
+          const char = happyPositions.find((p) => p.x === i && Math.floor(drops[i]) === p.y).char;
+          ctx.fillStyle = "#fff";
+          ctx.fillText(char, x, y);
+        } else {
+          ctx.fillStyle = "hotpink";
           ctx.fillText(text, x, y);
-
-          if (y > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-
-          drops[i]++;
         }
-      }, 50);
 
-      setTimeout(() => {
-        clearInterval(rainInterval);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        startFireworks();
-      }, 4000); // delay pháo hoa
-    }
-
-    function startFireworks() {
-      const canvas = document.getElementById("fireworks-canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const particles = [];
-
-      function createFirework() {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height / 2;
-        const count = 50 + Math.random() * 50;
-        for (let i = 0; i < count; i++) {
-          const angle = Math.random() * 2 * Math.PI;
-          const speed = Math.random() * 5 + 2;
-          particles.push({
-            x: x,
-            y: y,
-            dx: Math.cos(angle) * speed,
-            dy: Math.sin(angle) * speed,
-            life: 100,
-            color: `hsl(${Math.random() * 360}, 100%, 70%)`
-          });
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
+
+        drops[i]++;
       }
 
-      setInterval(createFirework, 500);
-
-      function update() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          p.x += p.dx;
-          p.y += p.dy;
-          p.dy += 0.05;
-          p.life--;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
-          ctx.fillStyle = p.color;
-          ctx.fill();
-        }
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-          if (particles[i].life <= 0) particles.splice(i, 1);
-        }
-
-        requestAnimationFrame(update);
-      }
-
-      update();
-    }
-  </script>
-
-  <!-- Logic chỉ hiện cảnh báo trên điện thoại + dựng đứng -->
-  <script>
-    function updateRotateWarning() {
-      const warning = document.getElementById("rotate-warning");
-      const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-      const isSmallScreen = window.innerWidth <= 768;
-
-      if (isPortrait && isSmallScreen) {
-        warning.style.display = "flex";
-      } else {
-        warning.style.display = "none";
-      }
+      requestAnimationFrame(draw);
     }
 
-    window.addEventListener("resize", updateRotateWarning);
-    window.addEventListener("orientationchange", updateRotateWarning);
-    window.addEventListener("load", updateRotateWarning);
+    generateHappyPosition();
+    draw();
   </script>
 </body>
 </html>
