@@ -1,5 +1,4 @@
 function startRain() {
-  // Ẩn lớp shader
   document.querySelector('.shader').style.display = 'none';
 
   const canvas = document.getElementById("matrix");
@@ -11,7 +10,7 @@ function startRain() {
   const message = "HAPPY BIRTHDAY";
   const letters = message.split("");
 
-  const fontSize = 20;
+  const fontSize = 22;
   const columns = canvas.width / fontSize;
   const drops = new Array(Math.floor(columns)).fill(1);
 
@@ -19,10 +18,10 @@ function startRain() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#00ff00";
+    ctx.fillStyle = "#ff69b4"; // Hồng cute
     ctx.font = fontSize + "px monospace";
-    ctx.shadowColor = "#00ff99";
-    ctx.shadowBlur = 8;
+    ctx.shadowColor = "#ffc0cb";
+    ctx.shadowBlur = 10;
 
     for (let i = 0; i < drops.length; i++) {
       const text = letters[i % letters.length];
