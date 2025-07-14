@@ -10,7 +10,7 @@ function startRain() {
   const message = "HAPPY BIRTHDAY";
   const letters = message.split("");
 
-  const fontSize = 32; // TO HƠN
+  const fontSize = 20; // 👈 Nhỏ hơn trước
   const columns = canvas.width / fontSize;
   const drops = new Array(Math.floor(columns)).fill(1);
 
@@ -18,9 +18,9 @@ function startRain() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#ff69b4"; // Màu hồng
+    ctx.fillStyle = "#ff69b4";
     ctx.font = fontSize + "px monospace";
-    ctx.shadowColor = "transparent"; // Không glow
+    ctx.shadowColor = "transparent";
     ctx.shadowBlur = 0;
 
     for (let i = 0; i < drops.length; i++) {
@@ -30,7 +30,8 @@ function startRain() {
 
       ctx.fillText(text, x, y);
 
-      if (y > canvas.height && Math.random() > 0.975) {
+      // Tăng tần suất rơi → rơi dày hơn
+      if (y > canvas.height && Math.random() > 0.95) {
         drops[i] = 0;
       }
 
@@ -38,5 +39,5 @@ function startRain() {
     }
   }
 
-  setInterval(draw, 50);
+  setInterval(draw, 45); // 👈 tốc độ nhanh nhẹ hơn tí
 }
