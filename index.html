@@ -6,6 +6,7 @@
   <title>🎉 Hacker Birthday 🎉</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    /* Điện thoại xoay quanh trung tâm */
     .rotate-icon svg #phone-body {
       transform-origin: 90px 80px;
       animation: rotatePhone 2s infinite ease-in-out alternate;
@@ -18,25 +19,24 @@
   </style>
 </head>
 <body>
-  <!-- Cảnh báo xoay ngang -->
+  <!-- Cảnh báo xoay ngang (chỉ hiện trên điện thoại) -->
   <div class="rotate-warning">
     <div class="rotate-icon">
       <svg width="180" height="160" viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
-        <!-- Nhóm xoay điện thoại + mũi tên -->
         <g id="phone-body">
-          <!-- Điện thoại -->
+          <!-- Thân điện thoại -->
           <rect x="70" y="35" width="40" height="90" rx="8" ry="8" stroke="white" stroke-width="3" fill="none"/>
           <circle cx="90" cy="40" r="2" fill="white"/>
           <circle cx="90" cy="120" r="4" fill="white"/>
 
-          <!-- ✅ Mũi tên trái (cân giữa điện thoại) -->
-          <path d="M 35 95 A 30 30 0 0 1 65 80" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên trái (đúng chiều ảnh mẫu) -->
+          <path d="M 65 80 A 30 30 0 0 0 35 95" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
 
-          <!-- ✅ Mũi tên phải (cân giữa điện thoại) -->
-          <path d="M 115 80 A 30 30 0 0 0 145 95" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
+          <!-- Mũi tên phải (đúng chiều ảnh mẫu) -->
+          <path d="M 145 95 A 30 30 0 0 1 115 80" fill="none" stroke="white" stroke-width="2" marker-end="url(#arrowhead)" />
         </g>
 
-        <!-- Đầu mũi tên -->
+        <!-- Marker đầu mũi tên -->
         <defs>
           <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto-start-reverse">
             <path d="M0,0 L5,2.5 L0,5 Z" fill="white" />
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <!-- Nút mở bất ngờ -->
+  <!-- Shader + Nút mở bất ngờ -->
   <div class="shader">
     <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
   </div>
@@ -54,6 +54,7 @@
   <!-- Canvas hiệu ứng -->
   <canvas id="matrix"></canvas>
 
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
