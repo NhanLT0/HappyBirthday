@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎉 Hacker Birthday 🎉</title>
+  <title>🎉 Happy Birthday 🎉</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -80,12 +80,8 @@
     <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
   </div>
   <canvas id="matrix"></canvas>
-  <script src="script.js"></script>
-
-  <!-- Hàm xử lý hiệu ứng "mưa chữ" -->
   <script>
     function startRain() {
-      // Nếu file script.js có xử lý matrix thì trigger tại đây
       const canvas = document.getElementById("matrix");
       const ctx = canvas.getContext("2d");
 
@@ -93,22 +89,27 @@
       canvas.height = window.innerHeight;
 
       const letters = "HAPPY BIRTHDAY ".split("");
-      const fontSize = 16;
-      const columns = canvas.width / fontSize;
-      const drops = Array(Math.floor(columns)).fill(1);
+      const fontSize = 20;
+      const columnCount = Math.floor(canvas.width / fontSize);
+      const offsetX = (canvas.width - columnCount * fontSize) / 2;
+
+      const drops = Array(columnCount).fill(1);
 
       function draw() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = "#ff69b4"; // hồng
+        ctx.fillStyle = "#ff69b4";
         ctx.font = fontSize + "px monospace";
 
         for (let i = 0; i < drops.length; i++) {
           const text = letters[Math.floor(Math.random() * letters.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          const x = i * fontSize + offsetX;
+          const y = drops[i] * fontSize;
 
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          ctx.fillText(text, x, y);
+
+          if (y > canvas.height && Math.random() > 0.975) {
             drops[i] = 0;
           }
 
