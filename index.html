@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
       background: black;
-      overflow: hidden;
       color: hotpink;
       font-family: monospace;
+      overflow: hidden;
     }
 
     canvas {
       display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
     }
 
     .note {
@@ -23,121 +25,93 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 20px 30px;
       background: white;
       color: black;
-      font-size: 20px;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 20px 30px;
       border-radius: 10px;
-      z-index: 10;
-      box-shadow: 0 0 20px hotpink;
-      transition: 0.3s;
-    }
-
-    .note:hover {
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .happy {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 40px;
-      font-weight: bold;
-      color: #ff69b4;
-      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px white;
-      animation: sparkle 1.2s infinite alternate;
-      z-index: 9;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-
-    @keyframes sparkle {
-      0% { text-shadow: 0 0 5px #ff69b4, 0 0 10px white; }
-      100% { text-shadow: 0 0 10px #ff69b4, 0 0 20px white, 0 0 30px #ff69b4; }
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
   <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
-  <div id="happy" class="happy" style="display: none;">HAPPY BIRTHDAY</div>
+  <canvas id="matrix"></canvas>
 
   <script>
+    // Mưa chữ HAPPYBIRTHDAY
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
 
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
-    const letters = "アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
-
-    const fontSize = 16;
+    const letters = "HAPPYBIRTHDAY".split("");
+    const fontSize = 14;
     const columns = canvas.width / fontSize;
-    const drops = [];
+    const drops = Array(Math.floor(columns)).fill(1);
 
-    for (let i = 0; i < columns; i++) {
-      drops[i] = Math.random() * -100;
-    }
-
-    const happyPositions = [];
-
-    function generateHappyPosition() {
-      const text = "HAPPY BIRTHDAY";
-      const middleX = Math.floor(columns / 2) - Math.floor(text.length / 2);
-      const yRow = 10;
-      happyPositions.length = 0;
-      for (let i = 0; i < text.length; i++) {
-        happyPositions.push({ x: middleX + i, y: yRow, char: text[i] });
-      }
-    }
-
-    let showHappy = false;
-    function startRain() {
-      document.querySelector(".note").style.display = "none";
-      showHappy = true;
-      document.getElementById("happy").style.display = "block";
-    }
-
-    function draw() {
+    function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = "hotpink";
+      ctx.fillStyle = "#ff66cc";
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
         const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        // Kiểm tra xem ký tự này có nằm trong vùng tạo chữ HAPPY BIRTHDAY không
-        if (
-          showHappy &&
-          happyPositions.some((p) => p.x === i && Math.floor(drops[i]) === p.y)
-        ) {
-          const char = happyPositions.find((p) => p.x === i && Math.floor(drops[i]) === p.y).char;
-          ctx.fillStyle = "#fff";
-          ctx.fillText(char, x, y);
-        } else {
-          ctx.fillStyle = "hotpink";
-          ctx.fillText(text, x, y);
-        }
-
-        if (y > canvas.height && Math.random() > 0.975) {
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
-
         drops[i]++;
       }
-
-      requestAnimationFrame(draw);
     }
 
-    generateHappyPosition();
-    draw();
+    let rainInterval;
+    function startRain() {
+      document.querySelector(".note").style.display = "none";
+      rainInterval = setInterval(drawMatrix, 50);
+      setTimeout(() => startCountdown(3), 3000); // Sau 3s bắt đầu 3-2-1
+    }
+
+    function startCountdown(n) {
+      if (n === 0) {
+        showFireworks();
+        showHappyBirthday();
+        return;
+      }
+
+      // Chữ số được ghép bằng ký tự nhỏ sẽ hiện ở đây
+      const text = document.createElement("div");
+      text.innerText = n;
+      text.style.position = "fixed";
+      text.style.top = "50%";
+      text.style.left = "50%";
+      text.style.transform = "translate(-50%, -50%)";
+      text.style.fontSize = "120px";
+      text.style.color = "#ff66cc";
+      text.style.zIndex = 999;
+      text.style.animation = "glow 1s ease-out";
+      document.body.appendChild(text);
+
+      setTimeout(() => {
+        text.remove();
+        startCountdown(n - 1);
+      }, 1000);
+    }
+
+    function showFireworks() {
+      // TODO: Add fireworks effect (next step)
+      console.log("BOOM! 🎆");
+    }
+
+    function showHappyBirthday() {
+      // TODO: Add magical letters fly into HAPPY BIRTHDAY shape
+      console.log("✨ HAPPY BIRTHDAY ✨");
+    }
   </script>
 </body>
 </html>
