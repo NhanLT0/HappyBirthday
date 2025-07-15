@@ -14,33 +14,77 @@
     }
 
     canvas {
-      display: block;
       position: fixed;
       top: 0;
       left: 0;
+      z-index: 0;
     }
 
     .note {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       background: white;
       color: black;
-      padding: 20px 30px;
+      padding: 16px 30px;
       border-radius: 10px;
-      font-size: 24px;
+      font-size: 20px;
+      font-weight: bold;
       cursor: pointer;
-      z-index: 1000;
+      z-index: 10;
+    }
+
+    .countdown, .happy-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 120px;
+      font-weight: bold;
+      color: #ff66cc;
+      z-index: 5;
+      pointer-events: none;
+      text-shadow: 0 0 10px #ff66cc, 0 0 20px #ff66cc;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; text-shadow: 0 0 10px #ff66cc; }
+      50% { opacity: 0.7; text-shadow: 0 0 20px white; }
+    }
+
+    .firework {
+      position: fixed;
+      border-radius: 50%;
+      background: white;
+      pointer-events: none;
+      z-index: 4;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        width: 2px;
+        height: 2px;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(3);
+      }
     }
   </style>
 </head>
 <body>
   <div class="note" onclick="startRain()">Bấm Vào Đây Có Bất Ngờ 😳</div>
   <canvas id="matrix"></canvas>
+  <div id="overlay"></div>
 
   <script>
-    // Mưa chữ HAPPYBIRTHDAY
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
 
@@ -49,20 +93,18 @@
 
     const letters = "HAPPYBIRTHDAY".split("");
     const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
 
     function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
       ctx.fillStyle = "#ff66cc";
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
@@ -70,47 +112,51 @@
       }
     }
 
-    let rainInterval;
+    let interval;
     function startRain() {
-      document.querySelector(".note").style.display = "none";
-      rainInterval = setInterval(drawMatrix, 50);
-      setTimeout(() => startCountdown(3), 3000); // Sau 3s bắt đầu 3-2-1
+      document.querySelector(".note").remove();
+      interval = setInterval(drawMatrix, 50);
+
+      setTimeout(() => startCountdown(3), 3000);
     }
 
     function startCountdown(n) {
       if (n === 0) {
         showFireworks();
-        showHappyBirthday();
+        showHappyText();
         return;
       }
 
-      // Chữ số được ghép bằng ký tự nhỏ sẽ hiện ở đây
-      const text = document.createElement("div");
-      text.innerText = n;
-      text.style.position = "fixed";
-      text.style.top = "50%";
-      text.style.left = "50%";
-      text.style.transform = "translate(-50%, -50%)";
-      text.style.fontSize = "120px";
-      text.style.color = "#ff66cc";
-      text.style.zIndex = 999;
-      text.style.animation = "glow 1s ease-out";
-      document.body.appendChild(text);
+      const count = document.createElement("div");
+      count.className = "countdown";
+      count.innerText = n;
+      document.body.appendChild(count);
 
       setTimeout(() => {
-        text.remove();
+        count.remove();
         startCountdown(n - 1);
       }, 1000);
     }
 
     function showFireworks() {
-      // TODO: Add fireworks effect (next step)
-      console.log("BOOM! 🎆");
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const fx = document.createElement("div");
+          fx.className = "firework";
+          fx.style.left = Math.random() * 100 + "vw";
+          fx.style.top = Math.random() * 100 + "vh";
+          fx.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+          document.body.appendChild(fx);
+          setTimeout(() => fx.remove(), 1000);
+        }, i * 100);
+      }
     }
 
-    function showHappyBirthday() {
-      // TODO: Add magical letters fly into HAPPY BIRTHDAY shape
-      console.log("✨ HAPPY BIRTHDAY ✨");
+    function showHappyText() {
+      const text = document.createElement("div");
+      text.className = "happy-text";
+      text.innerText = "HAPPY BIRTHDAY";
+      document.body.appendChild(text);
     }
   </script>
 </body>
