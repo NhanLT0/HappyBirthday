@@ -58,6 +58,15 @@
       from { opacity: 1; transform: scale(1); }
       to { opacity: 0; transform: scale(3); }
     }
+
+    .glow {
+      animation: glowAnim 1s infinite alternate;
+    }
+
+    @keyframes glowAnim {
+      from { text-shadow: 0 0 10px hotpink; }
+      to   { text-shadow: 0 0 20px white, 0 0 30px hotpink; }
+    }
   </style>
 </head>
 <body>
@@ -89,6 +98,8 @@
 
     let raining = true;
     let assembling = false;
+    let showFinalText = false;
+    let fireworks = [];
 
     function draw() {
       ctx.fillStyle = "rgba(0,0,0,0.1)";
@@ -110,7 +121,7 @@
           py += p.vy;
 
           // Spark
-          if (Math.random() < 0.05) createSpark(px, py);
+          if (Math.random() < 0.03) createSpark(px, py);
         } else {
           py += p.vy;
           if (py > height) {
@@ -126,6 +137,7 @@
         ctx.fillText(p.char, px, py);
       }
 
+      if (showFinalText) drawFireworks();
       requestAnimationFrame(draw);
     }
 
@@ -169,6 +181,12 @@
         particles[i].char = message[used];
         used++;
       }
+
+      setTimeout(() => {
+        showFinalText = true;
+        explodeFireworks();
+        showGlowText();
+      }, 1500);
     }
 
     function createSpark(x, y) {
@@ -178,6 +196,48 @@
       s.style.top = y + "px";
       document.body.appendChild(s);
       setTimeout(() => s.remove(), 400);
+    }
+
+    function showGlowText() {
+      const div = document.createElement("div");
+      div.className = "countdown glow";
+      div.innerText = "HAPPY BIRTHDAY";
+      div.style.color = "#ff66cc";
+      document.body.appendChild(div);
+    }
+
+    // Fireworks effect
+    function explodeFireworks() {
+      for (let i = 0; i < 20; i++) {
+        fireworks.push({
+          x: Math.random() * width,
+          y: Math.random() * height / 2,
+          radius: 1,
+          alpha: 1,
+          color: `hsl(${Math.random() * 360}, 100%, 60%)`
+        });
+      }
+    }
+
+    function drawFireworks() {
+      fireworks.forEach((fw, i) => {
+        ctx.beginPath();
+        ctx.arc(fw.x, fw.y, fw.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${hexToRgb(fw.color)},${fw.alpha})`;
+        ctx.fill();
+        fw.radius += 2;
+        fw.alpha -= 0.02;
+        if (fw.alpha <= 0) fireworks.splice(i, 1);
+      });
+    }
+
+    function hexToRgb(hsl) {
+      const temp = document.createElement("div");
+      temp.style.color = hsl;
+      document.body.appendChild(temp);
+      const rgb = getComputedStyle(temp).color;
+      document.body.removeChild(temp);
+      return rgb.match(/\d+/g).join(",");
     }
 
     window.addEventListener("resize", () => {
